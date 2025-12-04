@@ -13,8 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Aqui registramos los servicios y repositorios
         $this->app->singleton(UserRepository::class);
         $this->app->singleton(UserService::class);
+
     }
 
     /**
