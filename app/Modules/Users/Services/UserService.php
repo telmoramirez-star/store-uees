@@ -34,14 +34,8 @@ class UserService
 
         try {
             $data['password'] = Hash::make($data['password']);
-            $data['is_active'] = $data['is_active'] ?? true;
 
             $user = $this->userRepository->create($data);
-
-            // Aquí puedes agregar lógica adicional:
-            // - Enviar email de bienvenida
-            // - Crear perfil asociado
-            // - Log de auditoría
 
             DB::commit();
 
