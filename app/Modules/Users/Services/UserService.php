@@ -33,7 +33,8 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $data['password'] = Hash::make($data['password']);
+            $data['password'] = Hash::make('password');
+            $data['status'] = 'Activo';
 
             $user = $this->userRepository->create($data);
 

@@ -16,7 +16,6 @@ class StoreUserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
             'phone' => 'required|nullable|string|max:20',
             'address' => 'required|nullable|string|max:500',
         ];
@@ -28,8 +27,6 @@ class StoreUserRequest extends FormRequest
             'name.required' => 'El nombre es obligatorio',
             'email.required' => 'El correo electrónico es obligatorio',
             'email.unique' => 'Este correo ya está registrado',
-            'password.required' => 'La contraseña es obligatoria',
-            'password.confirmed' => 'Las contraseñas no coinciden',
             'phone.required' => 'El teléfono es obligatorio',
             'address.required' => 'La dirección es obligatoria',
         ];
