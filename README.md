@@ -1,85 +1,74 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-## Requisitos
+## Guía de Uso del Sistema
+
+### Roles y Credenciales de Prueba
+El sistema cuenta con dos roles principales definidos en los seeders (`DatabaseSeeder`). Las contraseñas por defecto son `password`.
+
+| Rol | Email | Contraseña | Descripción |
+| :--- | :--- | :--- | :--- |
+| **Administrador** | `admin@store.com` | `password` | Acceso total al sistema. |
+| **Cliente** | `client1@store.com` | `password` | Acceso a compras y catálogo. |
+
+### Funcionalidades por Rol
+
+#### 1. Administrador
+El usuario administrador tiene control sobre la gestión de la tienda:
+*   **Gestión de Usuarios**: Puede ver la lista de usuarios, crear nuevos (incluyendo administradores) y cambiar el estado (Activo/Inactivo) para restringir el acceso.
+*   **Gestión de Productos**:
+    *   **Crear/Editar**: Puede añadir productos manualmente con nombre, precio, stock y categoría.
+    *   **Importación Masiva**: Dispone de una funcionalidad para importar productos desde archivos Excel/CSV. El sistema acepta encabezados tanto en español (`nombre`, `precio`, `categoria`) como en inglés (`name`, `price`, `category`).
+*   **Logs del Sistema**: Visualización de actividades críticas, como acciones del carrito o administración.
+
+#### 2. Cliente
+El usuario cliente utiliza la plataforma para realizar compras:
+*   **Catálogo**: Visualización de productos disponibles con su precio y stock.
+*   **Carrito de Compras**:
+    *   Agregar productos al carrito.
+    *   Ver el resumen de compra con total calculado.
+    *   Eliminar productos del carrito.
+    *   Contador de ítems en tiempo real en la barra de navegación.
+
+---
+
+## Requisitos Técnicos
 ```
 php: 8.3
 node: 22
 ```
-## Comandos
-Para arrancar la aplicación
-```
+
+## Instalación y Comandos
+
+1. **Arrancar entorno de desarrollo**:
+```bash
 composer run dev
 ```
 
-Para correr las migraciones
+2. **Ejecutar migraciones y seeders** (para crear las tablas y usuarios por defecto):
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
-## Estructura de proyecto
+## Estructura de Proyecto
 
 ```
 app
     |_Modules
         |_Users
-            |_Controllers
-            |_Repositories
-            |_Requests
-            |_Services
+        |_Products
+        |_Carts
+        |_Logs
 ```
-En la carpeta **Moudules** se encuentran todo los modules que se realizan.
+El proyecto sigue una arquitectura modular. Cada módulo (ej. Users, Products) es autocontenido y posee sus propios:
+- **Controllers**
+- **Repositories**
+- **Services**
+- **Requests**
+- **Models**
 
-Cada modulo tendra por estructuras las carpetas **Controller**, **Repositories**, **Requests** y **Services**.
+### Convenciones
+- **Provider**: `AppServiceProvider` registra los servicios y repositorios de cada módulo para la inyección de dependencias.
+- **Nombres**: CamelCase para clases (ej. `ProductService`).
 
-Considerar:
-
-- Los nombres de los archivos van en CamelCase
-- Siempre tienen que mencionar al modulo: UserController, UserRepository, etc
-
-## Importante
-
-En esta ruta se deben registrar los Services y Repository
-
-```
-app
-    |_Providers
-        |_AppServiceProvider.php
-```
-Ejemplo:
-
-```php
-<?php
-
-namespace App\Providers;
-
-use App\Modules\Users\Repositories\UserRepository;
-use App\Modules\Users\Services\UserService;
-use Illuminate\Support\ServiceProvider;
-
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        // Aqui registramos los servicios y repositorios
-        $this->app->singleton(UserRepository::class);
-        $this->app->singleton(UserService::class);
-
-    }
-
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
-    }
-}
-
-```
-## Recursos
-
-### Diseño de componentes
-- https://www.hyperui.dev/components/application/toasts
+## Recursos Adicionales
+- Componentes UI: [HyperUI Toasts](https://www.hyperui.dev/components/application/toasts)
