@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Modules\Users\Repositories\UserRepository;
+use App\Modules\Users\Services\UserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Aqui registramos los servicios y repositorios
+        $this->app->singleton(UserRepository::class);
+        $this->app->singleton(UserService::class);
+
+        $this->app->singleton(\App\Modules\Carts\Repositories\CartRepository::class);
+        $this->app->singleton(\App\Modules\Carts\Services\CartService::class);
+
+
     }
 
     /**

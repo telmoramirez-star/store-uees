@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Store UEES</title>
-
-    <!-- Tailwind o Bootstrap si usas -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Store UEES') }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-
-    <nav class="bg-gray-900 text-white p-4">
-        <div class="container mx-auto">
-            <a href="/" class="font-bold">Store UEES</a>
+<nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold text-gray-800">Store UEES</a>
+            <div class="flex gap-4">
+                <a href="/cart" class="text-gray-600 hover:text-gray-900">🛒 Carrito</a>
+                <a href="/users" class="text-gray-600 hover:text-gray-900">Usuarios</a>
+            </div>
         </div>
-    </nav>
-
-    <div class="container mx-auto mt-6">
-        @yield('content')
     </div>
+</nav>
 
+<main>
+    @yield('content')
+</main>
+
+@stack('scripts')
 </body>
 </html>
