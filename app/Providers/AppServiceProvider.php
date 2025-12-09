@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(UserRepository::class);
         $this->app->singleton(UserService::class);
 
+        $this->app->singleton(\App\Modules\Carts\Repositories\CartRepository::class);
+        $this->app->singleton(\App\Modules\Carts\Services\CartService::class);
+
+
     }
 
     /**

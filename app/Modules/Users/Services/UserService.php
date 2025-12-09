@@ -33,7 +33,7 @@ class UserService
         DB::beginTransaction();
 
         try {
-            $data['password'] = Hash::make('password');
+            $data['password'] = Hash::make($data['password']);
             $data['status'] = 'Activo';
 
             $user = $this->userRepository->create($data);
@@ -92,9 +92,11 @@ class UserService
             throw new Exception('Usuario no encontrado');
         }
 
-        $this->userRepository->update($user, [
-            'is_active' => !$user->is_active
-        ]);
+        if ($user->trashed()) {
+            $user->restore();
+        } else {
+            $user->delete();
+        }
 
         return $user->fresh();
     }

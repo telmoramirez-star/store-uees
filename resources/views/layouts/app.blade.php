@@ -1,33 +1,58 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-
-    <!-- Styles / Scripts -->
-    @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @else
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <script src="{{ asset('js/app.js') }}" defer></script>
-    @endif
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Store UEES') }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <header>
-
-    </header>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="text-2xl font-bold text-gray-800">Store UEES</a>
+                <div class="flex gap-4">
+                    @inject('cartService', 'App\Modules\Carts\Services\CartService')
+                    @php
+                        $cartCount = 0;
+                        if (auth()->check()) {
+                            $cartSummary = $cartService->getCartSummary();
+                            $cartCount = $cartSummary['count'];
+                        }
+                    @endphp
+                    <a href="/cart" class="text-gray-600 hover:text-gray-900">
+                        🛒 Carrito
+                        @if($cartCount > 0)
+                            <span class="bg-red-500 text-white rounded-full px-2 py-0.5 text-xs">{{ $cartCount }}</span>
+                        @endif
+                    </a>
+                    @if(auth()->user()?->isAdmin())
+                        <a href="/users" class="text-gray-600 hover:text-gray-900">Usuarios</a>
+                        <a href="{{ route('products.import.view') }}" class="text-gray-600 hover:text-gray-900">Importar
+                            Productos</a>
+                        <a href="{{ route('logs.index') }}" class="text-gray-600 hover:text-gray-900">Logs</a>
+                    @endif
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="text-gray-600 hover:text-gray-900">Cerrar Sesión</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="text-gray-600 hover:text-gray-900">Iniciar Sesión</a>
+                    @endauth
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <main>
         @yield('content')
     </main>
+
+    @stack('scripts')
 </body>
 
 </html>
