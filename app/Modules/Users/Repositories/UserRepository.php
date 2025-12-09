@@ -10,22 +10,22 @@ class UserRepository
 {
     public function findById(int $id): ?User
     {
-        return User::find($id);
+        return User::withTrashed()->find($id);
     }
 
     public function findByEmail(string $email): ?User
     {
-        return User::where('email', $email)->first();
+        return User::withTrashed()->where('email', $email)->first();
     }
 
     public function getAll(): Collection
     {
-        return User::all();
+        return User::withTrashed()->get();
     }
 
     public function paginate(int $perPage = 15): LengthAwarePaginator
     {
-        return User::orderBy('created_at', 'desc')->paginate($perPage);
+        return User::withTrashed()->orderBy('created_at', 'desc')->paginate($perPage);
     }
 
     public function create(array $data): User

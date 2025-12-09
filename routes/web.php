@@ -23,6 +23,7 @@ Route::middleware(["auth"])->group(function () {
         Route::post('/products', [ProductController::class, 'store'])->name('products.store');
         Route::resource('users', App\Modules\Users\Controllers\UserController::class);
         Route::get('/logs', [App\Modules\Logs\Controllers\LogController::class, 'index'])->name('logs.index');
+        Route::patch('/users/{id}/toggle', [App\Modules\Users\Controllers\UserController::class, 'toggleStatus'])->name('users.toggle');
     });
 });
 
