@@ -15,7 +15,20 @@
             <div class="flex justify-between items-center">
                 <a href="/" class="text-2xl font-bold text-gray-800">Store UEES</a>
                 <div class="flex gap-4">
-                    <a href="/cart" class="text-gray-600 hover:text-gray-900">🛒 Carrito</a>
+                    @inject('cartService', 'App\Modules\Carts\Services\CartService')
+                    @php
+                        $cartCount = 0;
+                        if (auth()->check()) {
+                            $cartSummary = $cartService->getCartSummary();
+                            $cartCount = $cartSummary['count'];
+                        }
+                    @endphp
+                    <a href="/cart" class="text-gray-600 hover:text-gray-900">
+                        🛒 Carrito
+                        @if($cartCount > 0)
+                            <span class="bg-red-500 text-white rounded-full px-2 py-0.5 text-xs">{{ $cartCount }}</span>
+                        @endif
+                    </a>
                     @if(auth()->user()?->isAdmin())
                         <a href="/users" class="text-gray-600 hover:text-gray-900">Usuarios</a>
                     @endif
