@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->enum('status', ['Activo', 'Inactivo'])->default('Activo');
+            $table->softDeletes();
         });
     }
 
@@ -24,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['address', 'phone', 'status']);
+            $table->dropColumn(['address', 'phone', 'status', 'deleted_at']);
         });
     }
 };
