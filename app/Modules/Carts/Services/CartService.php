@@ -15,15 +15,13 @@ class CartService
 
     public function getUserCart()
     {
-        // Temporal: usar user_id = 1 para pruebas sin autenticación
-        $userId = 1;
+        $userId = auth()->id();
         return $this->cartRepository->getUserCart($userId);
     }
 
     public function addToCart($productId, $quantity, $unitPrice)
     {
-        // Temporal: usar user_id = 1 para pruebas
-        $userId = 1;
+        $userId = auth()->id();
 
         // Obtener o crear carrito
         $cart = $this->cartRepository->getOrCreateCart($userId);
@@ -64,8 +62,7 @@ class CartService
 
     public function clearCart()
     {
-        // Temporal: usar user_id = 1
-        $userId = 1;
+        $userId = auth()->id();
         $cart = $this->cartRepository->getUserCart($userId);
 
         if ($cart) {

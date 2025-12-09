@@ -46,7 +46,7 @@ class CartController extends Controller
             $request->unit_price
         );
 
-        return response()->json($result);
+        return back()->with('success', 'Producto agregado al carrito');
     }
 
     /**

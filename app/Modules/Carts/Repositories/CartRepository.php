@@ -27,19 +27,24 @@ class CartRepository
 
     public function addItem($cartId, $productId, $quantity, $unitPrice)
     {
-        $subtotal = $quantity * $unitPrice;
+        $item = CartItem::where('cart_id', $cartId)
+            ->where('product_id', $productId)
+            ->first();
 
-        return CartItem::updateOrCreate(
-            [
-                'cart_id' => $cartId,
-                'product_id' => $productId
-            ],
-            [
-                'amount' => DB::raw("amount + $quantity"),
-                'unit_price' => $unitPrice,
-                'subtotal' => DB::raw("subtotal + $subtotal")
-            ]
-        );
+        if ($item) {
+            $item->amount += $quantity;
+            $item->subtotal = $item->amount * $unitPrice;
+            $item->save();
+            return $item;
+        }
+
+        return CartItem::create([
+            'cart_id' => $cartId,
+            'product_id' => $productId,
+            'amount' => $quantity,
+            'unit_price' => $unitPrice,
+            'subtotal' => $quantity * $unitPrice
+        ]);
     }
 
     public function updateItemQuantity($cartItemId, $quantity, $unitPrice)
