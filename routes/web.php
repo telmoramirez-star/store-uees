@@ -5,7 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Modules\Carts\Controllers\CartController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('products.index');
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
