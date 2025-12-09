@@ -5,11 +5,6 @@
 
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-bold">Productos</h2>
-
-            <a href="{{ route('products.create') }}"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                + Crear Producto
-            </a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
