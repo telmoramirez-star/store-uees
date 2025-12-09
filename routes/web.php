@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
 use App\Modules\Carts\Controllers\CartController;
 
 Route::middleware(["auth"])->group(function () {
@@ -16,16 +15,15 @@ Route::middleware(["auth"])->group(function () {
         return redirect()->route('products.index');
     });
     
-    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products', [App\Modules\Products\Controllers\ProductController::class, 'index'])->name('products.index');
     
     Route::middleware([\App\Http\Middleware\CheckAdmin::class])->group(function () {
-        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::post('/products', [App\Modules\Products\Controllers\ProductController::class, 'store'])->name('products.store');
         Route::resource('users', App\Modules\Users\Controllers\UserController::class);
         Route::get('/logs', [App\Modules\Logs\Controllers\LogController::class, 'index'])->name('logs.index');
         Route::patch('/users/{id}/toggle', [App\Modules\Users\Controllers\UserController::class, 'toggleStatus'])->name('users.toggle');
-        Route::get('/products/import', [ProductController::class, 'importView'])->name('products.import.view');
-        Route::post('/products/import', [ProductController::class, 'import'])->name('products.import.store');
+        Route::get('/products/import', [App\Modules\Products\Controllers\ProductController::class, 'importView'])->name('products.import.view');
+        Route::post('/products/import', [App\Modules\Products\Controllers\ProductController::class, 'import'])->name('products.import.store');
     });
 });
 

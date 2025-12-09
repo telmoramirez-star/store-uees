@@ -5,7 +5,8 @@
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
             <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Importar Productos</h2>
             <p class="mt-2 text-center text-sm text-gray-600">
-                Sube un archivo Excel (.xlsx, .xls) o CSV con las columnas: Nombre, Precio, Stock, Categoría.
+                Sube un archivo Excel (.xlsx, .xls) o CSV con las columnas: <strong>Nombre, Precio, Stock,
+                    Categoria</strong>.
             </p>
         </div>
 
