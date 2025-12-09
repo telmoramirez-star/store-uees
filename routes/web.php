@@ -18,10 +18,12 @@ Route::middleware(["auth"])->group(function () {
     
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     
-    Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
-    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
-    
-    Route::resource('users', App\Modules\Users\Controllers\UserController::class)->middleware(\App\Http\Middleware\CheckAdmin::class);
+    Route::middleware([\App\Http\Middleware\CheckAdmin::class])->group(function () {
+        Route::get('/products/create', [ProductController::class, 'create'])->name('products.create');
+        Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+        Route::resource('users', App\Modules\Users\Controllers\UserController::class);
+        Route::get('/logs', [App\Modules\Logs\Controllers\LogController::class, 'index'])->name('logs.index');
+    });
 });
 
 Route::get('login', [App\Modules\Login\Controllers\LoginController::class, 'showLoginForm'])->name('login');
