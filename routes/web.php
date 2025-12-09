@@ -24,6 +24,8 @@ Route::middleware(["auth"])->group(function () {
         Route::resource('users', App\Modules\Users\Controllers\UserController::class);
         Route::get('/logs', [App\Modules\Logs\Controllers\LogController::class, 'index'])->name('logs.index');
         Route::patch('/users/{id}/toggle', [App\Modules\Users\Controllers\UserController::class, 'toggleStatus'])->name('users.toggle');
+        Route::get('/products/import', [ProductController::class, 'importView'])->name('products.import.view');
+        Route::post('/products/import', [ProductController::class, 'import'])->name('products.import.store');
     });
 });
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Imports\ProductsImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -37,5 +39,23 @@ class ProductController extends Controller
         ]);
 
         return redirect()->route('products.index')->with('success', 'Producto creado correctamente.');
+    }
+    public function importView()
+    {
+        return view('products.import');
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            Excel::import(new ProductsImport, $request->file('file'));
+            return redirect()->route('products.index')->with('success', 'Productos importados correctamente');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al importar productos: ' . $e->getMessage());
+        }
     }
 }

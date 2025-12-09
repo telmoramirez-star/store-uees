@@ -31,8 +31,8 @@
                     </a>
                     @if(auth()->user()?->isAdmin())
                         <a href="/users" class="text-gray-600 hover:text-gray-900">Usuarios</a>
-                        <a href="{{ route('products.create') }}" class="text-gray-600 hover:text-gray-900">Crear
-                            Producto</a>
+                        <a href="{{ route('products.import.view') }}" class="text-gray-600 hover:text-gray-900">Importar
+                            Productos</a>
                         <a href="{{ route('logs.index') }}" class="text-gray-600 hover:text-gray-900">Logs</a>
                     @endif
                     @auth
