@@ -100,10 +100,6 @@
                             Subtotal ({{ $itemCount }} item{{ $itemCount > 1 ? 's' : '' }}):
                             <span class="font-bold text-xl">${{ number_format($total, 2) }}</span>
                         </p>
-                        <div class="flex items-start gap-2 mb-4">
-                            <input type="checkbox" id="gift" class="mt-1">
-                            <label for="gift" class="text-sm">This order contains a gift</label>
-                        </div>
                         <button
                             class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-normal py-2 px-4 rounded-lg shadow-sm">
                             Proceed to checkout
@@ -113,9 +109,9 @@
             </div>
         @else
             <div class="bg-white rounded-lg shadow p-8 text-center">
-                <p class="text-xl text-gray-600 mb-4">Your cart is empty</p>
+                <p class="text-xl text-gray-600 mb-4">Tu carrito está vacío</p>
                 <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
-                    Continue Shopping
+                    Seguir comprando
                 </a>
             </div>
         @endif
