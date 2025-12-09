@@ -17,11 +17,21 @@ class ProductsImport implements ToModel, WithHeadingRow, WithValidation
     public function model(array $row)
     {
         return new Product([
-            'name'     => $row['nombre'],
-            'price'    => $row['precio'],
+            'name'     => $row['nombre'] ?? $row['name'],
+            'price'    => $row['precio'] ?? $row['price'],
             'stock'    => $row['stock'],
-            'category' => $row['categoria'],
+            'category' => $row['categoria'] ?? $row['category'],
         ]);
+    }
+
+    public function prepareForValidation($data, $index)
+    {
+        // Normalización de claves para soportar encabezados en inglés o español
+        $data['nombre'] = $data['nombre'] ?? $data['name'] ?? null;
+        $data['precio'] = $data['precio'] ?? $data['price'] ?? null;
+        $data['categoria'] = $data['categoria'] ?? $data['category'] ?? null;
+        
+        return $data;
     }
 
     public function rules(): array
