@@ -62,7 +62,7 @@
                                             <!-- Delete Button -->
                                             <button class="btn-remove text-blue-600 hover:text-orange-600 hover:underline"
                                                 data-item-id="{{ $item->id }}">
-                                                Delete
+                                                Eliminar
                                             </button>
 
                                             <span class="text-gray-300">|</span>
