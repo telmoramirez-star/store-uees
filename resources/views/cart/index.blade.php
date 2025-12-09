@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-6 max-w-7xl">
-        <h1 class="text-3xl font-bold mb-6">Shopping Cart</h1>
+        <h1 class="text-3xl font-bold mb-6">Carrito de compras</h1>
 
         @if($cart && count($cart) > 0)
             <div class="flex gap-6">
@@ -11,23 +11,18 @@
                     <div class="bg-white rounded-lg">
                         <!-- Header -->
                         <div class="border-b p-4">
-                            <a href="#" class="text-blue-600 hover:text-blue-800 text-sm">Deselect all items</a>
-                            <span class="float-right text-sm font-semibold">Price</span>
+                            <span class="float-right text-sm font-semibold">Precio</span>
                         </div>
 
                         <!-- Cart Items -->
                         @foreach($cart as $item)
                             <div class="border-b p-4" data-cart-item="{{ $item->id }}">
                                 <div class="flex gap-4">
-                                    <!-- Checkbox -->
-                                    <div class="flex-shrink-0 pt-2">
-                                        <input type="checkbox" checked class="w-5 h-5">
-                                    </div>
-
                                     <!-- Product Image -->
                                     <div class="flex-shrink-0">
                                         @if($item->product->image)
-                                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-32 h-32 object-contain">
+                                            <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}"
+                                                class="w-32 h-32 object-contain">
                                         @else
                                             <div class="w-32 h-32 bg-gray-200 flex items-center justify-center">
                                                 <span class="text-gray-400 text-xs">No image</span>
@@ -38,54 +33,40 @@
                                     <!-- Product Info -->
                                     <div class="flex-1">
                                         <h3 class="text-base font-normal mb-1">
-                                            <a href="#" class="text-blue-600 hover:text-orange-600 hover:underline">{{ $item->product->name }}</a>
+                                            <a href="#"
+                                                class="text-blue-600 hover:text-orange-600 hover:underline">{{ $item->product->name }}</a>
                                         </h3>
                                         <p class="text-sm text-gray-700 mb-2">{{ $item->product->description ?? '' }}</p>
 
                                         @if($item->product->stock > 0)
-                                            <p class="text-sm text-green-700 font-semibold mb-1">In Stock</p>
+                                            <p class="text-sm text-green-700 font-semibold mb-1">Disponible</p>
                                         @endif
-
-                                        <p class="text-xs text-gray-600 mb-3">
-                                            <span class="font-semibold">Color:</span> Space Black
-                                        </p>
 
                                         <!-- Action Buttons -->
                                         <div class="flex items-center gap-3 text-sm">
                                             <!-- Quantity Controls -->
                                             <div class="flex items-center bg-gray-100 rounded-lg border border-gray-300 shadow-sm">
-                                                <button
-                                                    class="btn-decrease px-3 py-1 hover:bg-gray-200 rounded-l-lg"
-                                                    data-item-id="{{ $item->id }}"
-                                                    data-unit-price="{{ $item->unit_price }}">
+                                                <button class="btn-decrease px-3 py-1 hover:bg-gray-200 rounded-l-lg"
+                                                    data-item-id="{{ $item->id }}" data-unit-price="{{ $item->unit_price }}">
                                                     <span class="text-base">−</span>
                                                 </button>
-                                                <span class="quantity px-4 py-1 bg-white border-x border-gray-300 min-w-[40px] text-center">{{ $item->amount }}</span>
-                                                <button
-                                                    class="btn-increase px-3 py-1 hover:bg-gray-200 rounded-r-lg"
-                                                    data-item-id="{{ $item->id }}"
-                                                    data-unit-price="{{ $item->unit_price }}">
+                                                <span
+                                                    class="quantity px-4 py-1 bg-white border-x border-gray-300 min-w-[40px] text-center">{{ $item->amount }}</span>
+                                                <button class="btn-increase px-3 py-1 hover:bg-gray-200 rounded-r-lg"
+                                                    data-item-id="{{ $item->id }}" data-unit-price="{{ $item->unit_price }}">
                                                     <span class="text-base">+</span>
                                                 </button>
                                             </div>
-
                                             <span class="text-gray-300">|</span>
 
                                             <!-- Delete Button -->
-                                            <button
-                                                class="btn-remove text-blue-600 hover:text-orange-600 hover:underline"
+                                            <button class="btn-remove text-blue-600 hover:text-orange-600 hover:underline"
                                                 data-item-id="{{ $item->id }}">
                                                 Delete
                                             </button>
 
                                             <span class="text-gray-300">|</span>
 
-                                            <!-- Other Actions -->
-                                            <button class="text-blue-600 hover:text-orange-600 hover:underline">Save for later</button>
-                                            <span class="text-gray-300">|</span>
-                                            <button class="text-blue-600 hover:text-orange-600 hover:underline">Compare with similar items</button>
-                                            <span class="text-gray-300">|</span>
-                                            <button class="text-blue-600 hover:text-orange-600 hover:underline">Share</button>
                                         </div>
                                     </div>
 
@@ -118,7 +99,8 @@
                             <input type="checkbox" id="gift" class="mt-1">
                             <label for="gift" class="text-sm">This order contains a gift</label>
                         </div>
-                        <button class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-normal py-2 px-4 rounded-lg shadow-sm">
+                        <button
+                            class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-normal py-2 px-4 rounded-lg shadow-sm">
                             Proceed to checkout
                         </button>
                     </div>
@@ -136,10 +118,10 @@
 
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 // Increase quantity
                 document.querySelectorAll('.btn-increase').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         const itemId = this.dataset.itemId;
                         const unitPrice = this.dataset.unitPrice;
                         const quantitySpan = this.parentElement.querySelector('.quantity');
@@ -151,7 +133,7 @@
 
                 // Decrease quantity
                 document.querySelectorAll('.btn-decrease').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         const itemId = this.dataset.itemId;
                         const unitPrice = this.dataset.unitPrice;
                         const quantitySpan = this.parentElement.querySelector('.quantity');
@@ -165,7 +147,7 @@
 
                 // Remove item
                 document.querySelectorAll('.btn-remove').forEach(btn => {
-                    btn.addEventListener('click', function() {
+                    btn.addEventListener('click', function () {
                         const itemId = this.dataset.itemId;
                         removeItem(itemId);
                     });
