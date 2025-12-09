@@ -74,8 +74,8 @@ class CartController extends Controller
     public function remove($cartItemId)
     {
         $result = $this->cartService->removeFromCart($cartItemId);
-
-        return response()->json($result);
+        
+        return back()->with('success', 'Producto eliminado del carrito');
     }
 
     /**

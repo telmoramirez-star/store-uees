@@ -60,10 +60,15 @@
                                             <span class="text-gray-300">|</span>
 
                                             <!-- Delete Button -->
-                                            <button class="btn-remove text-blue-600 hover:text-orange-600 hover:underline"
-                                                data-item-id="{{ $item->id }}">
-                                                Eliminar
-                                            </button>
+                                            <!-- Delete Button -->
+                                            <form action="{{ route('cart.remove', $item->id) }}" method="POST" class="inline"
+                                                onsubmit="return confirm('¿Estás seguro de querer eliminar este producto?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-blue-600 hover:text-orange-600 hover:underline">
+                                                    Eliminar
+                                                </button>
+                                            </form>
 
                                             <span class="text-gray-300">|</span>
 
@@ -145,13 +150,7 @@
                     });
                 });
 
-                // Remove item
-                document.querySelectorAll('.btn-remove').forEach(btn => {
-                    btn.addEventListener('click', function () {
-                        const itemId = this.dataset.itemId;
-                        removeItem(itemId);
-                    });
-                });
+
 
                 function updateQuantity(itemId, quantity, unitPrice) {
                     fetch(`/cart/${itemId}`, {
@@ -170,22 +169,7 @@
                         });
                 }
 
-                function removeItem(itemId) {
-                    if (confirm('Are you sure you want to remove this item?')) {
-                        fetch(`/cart/${itemId}`, {
-                            method: 'DELETE',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                if (data.success) {
-                                    location.reload();
-                                }
-                            });
-                    }
-                }
+
             });
         </script>
     @endpush
