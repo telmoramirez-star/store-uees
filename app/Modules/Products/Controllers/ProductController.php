@@ -25,7 +25,6 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        // Validar datos
         $data = $request->validate([
             'name' => 'required',
             'price' => 'required|numeric',
@@ -55,5 +54,32 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Error al importar productos: ' . $e->getMessage());
         }
+    }
+
+    /* =====================================================
+     *  NUEVO → EDITAR PRODUCTO
+     * ===================================================== */
+    public function edit($id)
+    {
+        $product = $this->productService->getProductById($id);
+
+        return view('products.edit', compact('product'));
+    }
+
+    /* =====================================================
+     *  NUEVO → ACTUALIZAR PRODUCTO
+     * ===================================================== */
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'name' => 'required',
+            'price' => 'required|numeric',
+            'category' => 'required',
+            'stock' => 'required|integer',
+        ]);
+
+        $this->productService->updateProduct($id, $data);
+
+        return redirect()->route('products.index')->with('success', 'Producto actualizado correctamente.');
     }
 }

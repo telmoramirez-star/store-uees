@@ -16,4 +16,18 @@ class ProductRepository
     {
         return Product::create($data);
     }
+
+
+    public function findById(int $id): Product
+    {
+        return Product::findOrFail($id);
+    }
+
+    public function update(int $id, array $data): Product
+    {
+        $product = Product::findOrFail($id);
+        $product->update($data);
+
+        return $product;
+    }
 }

@@ -27,4 +27,16 @@ class ProductService
     {
         Excel::import(new ProductsImport, $file);
     }
+
+
+    public function getProductById(int $id)
+    {
+        return $this->productRepository->findById($id);
+    }
+
+
+    public function updateProduct(int $id, array $data)
+    {
+        return $this->productRepository->update($id, $data);
+    }
 }
