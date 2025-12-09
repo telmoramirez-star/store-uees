@@ -7,10 +7,12 @@ use App\Modules\Carts\Repositories\CartRepository;
 class CartService
 {
     protected $cartRepository;
+    protected $logService;
 
-    public function __construct(CartRepository $cartRepository)
+    public function __construct(CartRepository $cartRepository, \App\Modules\Logs\Services\LogService $logService)
     {
         $this->cartRepository = $cartRepository;
+        $this->logService = $logService;
     }
 
     public function getUserCart()
@@ -28,6 +30,12 @@ class CartService
 
         // Agregar item
         $this->cartRepository->addItem($cart->id, $productId, $quantity, $unitPrice);
+
+        $this->logService->logAction($userId, 'ADD_TO_CART', json_encode([
+            'product_id' => $productId,
+            'quantity' => $quantity,
+            'unit_price' => $unitPrice
+        ]));
 
         return [
             'success' => true,
@@ -53,6 +61,10 @@ class CartService
     public function removeFromCart($cartItemId)
     {
         $this->cartRepository->removeItem($cartItemId);
+
+        $this->logService->logAction(auth()->id(), 'REMOVE_FROM_CART', json_encode([
+            'cart_item_id' => $cartItemId
+        ]));
 
         return [
             'success' => true,
