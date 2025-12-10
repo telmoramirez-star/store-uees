@@ -1,8 +1,8 @@
-# 🚀 DEPLOY.MD: Despliegue de la Aplicación Laravel (Shopping Car)
+# 🚀 DEPLOY.MD: Despliegue de la Aplicación Laravel (Shopping Car UEES)
 
 Este documento contiene las instrucciones sencillas y directas para levantar la aplicación completamente funcional en tu máquina local usando Docker Compose.
 
-**No necesitas descargar el código fuente de la aplicación, solo este archivo de configuración.**
+**No necesitas descargar el código fuente de la aplicación, solo este archivo de configuración `/deploy/docker-compose.yml`.**
 
 ---
 
