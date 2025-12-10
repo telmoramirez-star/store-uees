@@ -1,0 +1,58 @@
+services:
+    # 1. SERVICIO DE LA APLICACIÓN (PHP-FPM)
+    app:
+        image: xramirezuees/shopping-car-uees:latest # Imagen FPM
+        container_name: laravel_fpm
+        restart: always
+        environment:
+            # Configuración DB
+            DB_CONNECTION: mysql
+            DB_HOST: db                    
+            DB_PORT: 3306
+            DB_DATABASE: laravel_db
+            DB_USERNAME: user
+            DB_PASSWORD: password123
+            # Configuración App
+            APP_KEY: base64:X63/dZeZpN/bLXvIyfzLqDbAq5xl7QhzxN6yiW5E5zo=
+            APP_ENV: production
+            APP_DEBUG: 'false'
+        
+        depends_on:
+            - db
+        # El comando solo ejecuta la configuración, luego inicia PHP-FPM
+        command: >
+            bash -c "php artisan key:generate --force && 
+                     php artisan config:clear && 
+                     php artisan migrate --force && 
+                     php artisan db:seed --force && 
+                     php-fpm" 
+
+    # 2. SERVICIO DE LA BASE DE DATOS (MYSQL)
+    db:
+        image: mysql:8.0
+        container_name: mysql_db
+        restart: always
+        # ¡IMPORTANTE! Hemos eliminado la sección 'volumes:' aquí.
+        # Esto hace que la base de datos sea EFÍMERA.
+        environment:
+            MYSQL_DATABASE: laravel_db
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password123
+            MYSQL_ROOT_PASSWORD: rootpassword
+        # volumes: 
+        #    - dbdata:/var/lib/mysql # ¡Eliminado para evitar persistencia!
+
+    # 3. SERVICIO DEL SERVIDOR WEB (NGINX)
+    nginx:
+        image: xramirezuees/nginx-web:latest # Imagen NGINX con configuración interna
+        container_name: laravel_nginx
+        restart: always
+        ports:
+            - "80:80" # El usuario accede aquí
+        depends_on:
+            - app # NGINX espera a que PHP-FPM esté corriendo
+
+# VOLÚMENES (Eliminamos la definición global de 'dbdata' para que no se cree)
+# volumes:
+#    dbdata:
+#        driver: local
