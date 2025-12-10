@@ -10,6 +10,7 @@ Route::middleware(["auth"])->group(function () {
     Route::delete('/cart/{cartItemId}', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
     Route::get('/cart/summary', [CartController::class, 'summary'])->name('cart.summary');
+    Route::post('/checkout', [App\Modules\Orders\Controllers\OrderController::class, 'store'])->name('orders.store');
     Route::post('logout', [App\Modules\Login\Controllers\LoginController::class, 'logout'])->name('logout');
     Route::get('/', function () {
         return redirect()->route('products.index');
@@ -24,6 +25,7 @@ Route::middleware(["auth"])->group(function () {
         Route::patch('/users/{id}/toggle', [App\Modules\Users\Controllers\UserController::class, 'toggleStatus'])->name('users.toggle');
         Route::get('/products/import', [App\Modules\Products\Controllers\ProductController::class, 'importView'])->name('products.import.view');
         Route::post('/products/import', [App\Modules\Products\Controllers\ProductController::class, 'import'])->name('products.import.store');
+        Route::get('/orders', [App\Modules\Orders\Controllers\OrderController::class, 'index'])->name('orders.index');
     });
 });
 

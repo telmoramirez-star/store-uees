@@ -100,10 +100,13 @@
                             Subtotal ({{ $itemCount }} item{{ $itemCount > 1 ? 's' : '' }}):
                             <span class="font-bold text-xl">${{ number_format($total, 2) }}</span>
                         </p>
-                        <button
-                            class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-normal py-2 px-4 rounded-lg shadow-sm">
-                            Proceed to checkout
-                        </button>
+                        <form action="{{ route('orders.store') }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="w-full bg-yellow-400 hover:bg-yellow-500 text-black font-normal py-2 px-4 rounded-lg shadow-sm">
+                                Proceed to checkout
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
